@@ -1,9 +1,11 @@
 package com.khoirullatif.serviceapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.khoirullatif.serviceapp.databinding.ActivityMainBinding
+import com.khoirullatif.serviceapp.service.MyService
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -22,7 +24,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            R.id.btn_start_service -> {
+                val mIntentService = Intent(this, MyService::class.java)
+                startService(mIntentService)
+            }
+            R.id.btn_start_job_intent_service -> {
 
+            }
+            R.id.btn_start_start_bound_service -> {
+
+            }
+            R.id.btn_stop_bound_service -> {
+
+            }
         }
     }
 }
