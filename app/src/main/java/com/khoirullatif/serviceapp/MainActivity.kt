@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.khoirullatif.serviceapp.databinding.ActivityMainBinding
+import com.khoirullatif.serviceapp.service.MyJobIntentService
 import com.khoirullatif.serviceapp.service.MyService
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -29,7 +30,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 startService(mIntentService)
             }
             R.id.btn_start_job_intent_service -> {
-
+                val mIntentJobIntentService = Intent(this, MyJobIntentService::class.java)
+                mIntentJobIntentService.putExtra(MyJobIntentService.EXTRA_DURATION, 4000L)
+                MyJobIntentService.enqueueWork(this, mIntentJobIntentService)
             }
             R.id.btn_start_start_bound_service -> {
 
