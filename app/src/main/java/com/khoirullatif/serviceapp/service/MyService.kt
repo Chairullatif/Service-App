@@ -6,7 +6,7 @@ import android.os.IBinder
 import android.util.Log
 import kotlinx.coroutines.*
 
-class MyService : Service() {
+class MyService : Service() { // Kelas service berjalan di ui thread
 
     companion object {
         internal val TAG = MyService::class.java.simpleName
@@ -21,12 +21,12 @@ class MyService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "Service dijalankan...")
-        serviceScope.launch {
+        serviceScope.launch { // Simulasi untuk menjalankan proses yang sulit, shg membuat thread baru di background
             delay(3000)
-            stopSelf()
+            stopSelf() // untuk mematikan MyService dari sistem android
             Log.d(TAG, "Service dimatikan..")
         }
-        return START_STICKY
+        return START_STICKY //service akan dimatikan jika kekurangan memori, diciptakan kembali jika sudah ada memori
     }
 
     override fun onDestroy() {
