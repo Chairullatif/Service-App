@@ -1,16 +1,38 @@
 package com.khoirullatif.serviceapp
 
+import android.content.ComponentName
 import android.content.Intent
+import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
 import com.khoirullatif.serviceapp.databinding.ActivityMainBinding
+import com.khoirullatif.serviceapp.service.MyBoundService
 import com.khoirullatif.serviceapp.service.MyJobIntentService
 import com.khoirullatif.serviceapp.service.MyService
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
+
+    /////// Service connection, untuk menghubungkan MainActivity dengan MyBoundService
+    private var mServiceBound = false
+    private lateinit var mBoundService: MyBoundService
+
+    private val mServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val myBinder = service as MyBoundService.MyBinder
+            mBoundService = myBinder.getService
+            mServiceBound = true
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            mServiceBound = false
+        }
+
+    }
+    ////////
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +57,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 MyJobIntentService.enqueueWork(this, mIntentJobIntentService)
             }
             R.id.btn_start_start_bound_service -> {
-
+                val mBoundServiceIntent = Intent(this, MyBoundService::class.java)
+                bindService(mBoundServiceIntent, mServiceConnection, BIND_AUTO_CREATE)
             }
             R.id.btn_stop_bound_service -> {
-
+                unbindService(mServiceConnection)
             }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (mServiceBound) {
+            unbindService(mServiceConnection)
         }
     }
 }

@@ -34,16 +34,14 @@
             android:id="@+id/btn_start_start_bound_service"
             android:layout_weight="1"
             android:text="@string/start_bound_service"
-            android:layout_marginEnd="16dp"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:layout_marginEnd="16dp" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/btn_stop_bound_service"
             android:layout_weight="1"
-            android:text="@string/stop_bound_service"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/stop_bound_service" />
 
     </LinearLayout>
 
